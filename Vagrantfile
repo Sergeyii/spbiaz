@@ -7,8 +7,8 @@ required_plugins.each do |plugin|
 end
 
 domains = {
-  frontend: 'y2aa-frontend.test',
-  backend:  'y2aa-backend.test'
+  frontend: 'spbiaz.local',
+  backend:  'backend.spbiaz.local',
 }
 
 config = {
@@ -30,7 +30,7 @@ end
 # vagrant configurate
 Vagrant.configure(2) do |config|
   # select the box
-  config.vm.box = 'bento/ubuntu-16.04'
+  config.vm.box = 'ubuntu/trusty64'
 
   # should we ask about box updates?
   config.vm.box_check_update = options['box_check_update']
@@ -72,6 +72,9 @@ Vagrant.configure(2) do |config|
   config.vm.provision 'shell', path: './vagrant/provision/once-as-vagrant.sh', args: [options['github_token']], privileged: false
   config.vm.provision 'shell', path: './vagrant/provision/always-as-root.sh', run: 'always'
 
+  config.vm.network :forwarded_port, host: 5432, guest: 5432
+
   # post-install message (vagrant console)
-  config.vm.post_up_message = "Frontend URL: http://#{domains[:frontend]}\nBackend URL: http://#{domains[:backend]}"
+  config.vm.post_up_message = "Frontend URL: http://#{domains[:frontend]}
+  Backend URL: http://#{domains[:backend]}"
 end

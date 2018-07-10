@@ -9,17 +9,11 @@ $params = array_merge(
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'queue', 'open-data'],
     'controllerNamespace' => 'console\controllers',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
-    ],
-    'controllerMap' => [
-        'fixture' => [
-            'class' => 'yii\console\controllers\FixtureController',
-            'namespace' => 'common\fixtures',
-          ],
     ],
     'components' => [
         'log' => [
@@ -28,8 +22,34 @@ return [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
                 ],
+                [
+                    'class' => 'yii\log\FileTarget',
+                    'logFile' => '@runtime/logs/debug.log',
+                    'categories' => ['console\helpers\*'],
+                ],
             ],
         ],
+        'urlManager' => [
+            'scriptUrl' => '/',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ]
     ],
     'params' => $params,
+    'controllerMap' => [
+        'fixture' => [
+            'class' => 'yii\console\controllers\FixtureController',
+            'namespace' => 'common\fixtures',
+        ],
+        'migrate' => [
+            'class' => 'yii\console\controllers\MigrateController',
+            'migrationNamespaces' => [
+                'console\migrations',
+            ],
+            'migrationPath' => null, // disable not namespaced migration completely
+        ],
+    ],
+    'modules' => [
+        'open-data' => \frontend\modules\openData\OpenData::class
+    ],
 ];

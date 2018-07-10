@@ -49,9 +49,17 @@ return [
                 '<_c:[\w\-]+>/<id:\d+>' => '<_c>/view',
                 '<_c:[\w\-]+>/<_a:[\w-]+>' => '<_c>/<_a>',
                 '<_c:[\w\-]+>/<id:\d+>/<_a:[\w\-]+>' => '<_c>/<_a>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\w+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:\w+>/<controller:\w+>/<id:\w+>' => '<module>/<controller>',
             ],
         ],
 
+    ],
+    'modules' => [
+        'openData' => [
+            'class' => '\frontend\modules\openData\OpenData',
+        ],
     ],
     'params' => $params,
 ];
